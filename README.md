@@ -33,7 +33,7 @@ pprint(d)
 
 A client for communicating with a HappyPanda X server.
 
-**Args**:
+Args:
 
 - `name`: name of client
 - `host`: HPX server host
@@ -74,7 +74,7 @@ Whether the connection is still alive
 
 Connect to HPX server
 
-**Args**:
+Args:
 
 - `host`: HPX server host, if set to `None` the provided host on instantiation will be used
 - `port`: HPX server port, if set to `None` the provided port on instantiation will be used
@@ -83,7 +83,7 @@ Connect to HPX server
 
 Perfom a handshake with the HPX server
 
-**Args**:
+Args:
 
 - `user`: username
 - `password`: password
@@ -93,7 +93,7 @@ Perfom a handshake with the HPX server
 
 Basically a re-login
 
-**Args**:
+Args:
 
 - `user`: username, if set to `False` the previously provided username will be used
 - `password`: password, if set to `False` the previously provided password will be used
@@ -103,7 +103,7 @@ Basically a re-login
 
 Send bytedata to server. Receive bytedata from server.
 
-**Args**:
+Args:
 
 - `data`: bytes data to send to server
 - `raise_on_auth`: raise an error if client is not authenticated
@@ -114,7 +114,7 @@ Send json-compatible dict to server. Receive json-compatible from server.
 
 Note that this method will not add anything to your message and expects you to add the name and session yourself. See the *finalize* function.
 
-**Args**:
+Args:
 
 - `data`: data to send to server, this is a dict
 - `raise_on_auth`: raise an error if client is not authenticated
@@ -131,7 +131,7 @@ final_msg = {
     }
 ```
 
-**Args**:
+Args:
 
 - `data`: data to send to server, this is usually a list of dicts
 - `raise_on_auth`: raise an error if client is not authenticated
@@ -153,7 +153,7 @@ msg = {
     }
 ```
 
-**Args**:
+Args:
 
 - `name`: name of client
 - `data`: data to send to server, this is usually a list of dicts
