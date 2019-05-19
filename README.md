@@ -1,5 +1,7 @@
-# py-client
+# happypandax-client
 > A python client library for communicating with [HappyPanda X](https://github.com/happypandax/happypandax) servers
+
+![terminal.gif](https://user-images.githubusercontent.com/11841002/57985155-4be30c00-7a64-11e9-9a5a-df79a42c85da.gif)
 
 ## Installing
 
