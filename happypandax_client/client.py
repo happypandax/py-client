@@ -51,7 +51,8 @@ class Client:
         self._last_pass = ""
         self._closed = False
 
-        self.timeout = timeout
+        if timeout != 0:
+            self._sock.settimeout(timeout)
 
     @property
     def host(self):
@@ -96,15 +97,15 @@ class Client:
                 self._version = serv_data.get('version')
                 self._ready = True
 
-    def handshake(self, user=None, password=None, data={}, ignore_err=False):
+    def handshake(self, user=None, password=None, ignore_err=False, _data={}):
         "Shake hands with server"
         s = False
         if self.alive():
             if user:
                 self._last_user = user
                 self._last_pass = password
-            if not ignore_err and data:
-                serv_error = data.get('error')
+            if not ignore_err and _data:
+                serv_error = _data.get('error')
                 if serv_error:
                     if serv_error['code'] == exceptions.AuthWrongCredentialsError.code:
                         raise exceptions.AuthWrongCredentialsError(self.name, serv_error['msg'])
@@ -116,16 +117,16 @@ class Client:
                         raise exceptions.AuthError(
                             self.name, "{}: {}".format(
                                 serv_error['code'], serv_error['msg']))
-            if not data:
+            if not _data:
                 d = {}
                 if user:
                     d['user'] = user
                     d['password'] = password
-                s = self.handshake(data=self.send_raw(finalize(self.name, d), raise_on_auth=False), ignore_err=ignore_err)
-            elif data:
-                serv_data = data.get('data')
+                s = self.handshake(_data=self.send_raw(finalize(self.name, d), raise_on_auth=False), ignore_err=ignore_err)
+            elif _data:
+                serv_data = _data.get('data')
                 if serv_data == "Authenticated":
-                    self.session = data.get('session')
+                    self.session = _data.get('session')
                     self._accepted = True
                     s = True
         return s
@@ -138,12 +139,16 @@ class Client:
                               password=self._last_pass if password is False else password,
                               ignore_err=ignore_err)
 
-    def connect(self):
+    def connect(self, host=None, port=None):
         "Connect to the server"
         if self._closed:
             raise exceptions.ClientError(self.name, "This connection has already been closed")
         if not self._alive:
             try:
+                if host is not None:
+                    self.host = host
+                if port is not None:
+                    self.port = port
                 log.info("Client connecting to server at: {}".format(self._server))
                 try:
                     self._sock.connect(self._server)
